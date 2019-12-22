@@ -1,6 +1,6 @@
 <?php
 
-require 'AES.php';
+include_once 'AES.php';
 
 class Request {
     public $mKey = "05a671c66aefea124cc08b76ea6d30bb";
