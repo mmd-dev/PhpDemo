@@ -44,12 +44,27 @@ class PayRequest extends Request {
         $milliseconds = round(microtime(true) * 1000);
         return array(
             'inform_url' => 'http://www.abc.com',
-            'input_charset' => $mCharacter,
-            'merchant_code' => $mMerchantCode,
+            'input_charset' => 'UTF-8',
+            'merchant_code' => '87557050',
             'order_amount' => AES::encrypt("90.00", $mKey),
             'order_no' => $milliseconds,
             'order_time' => '2019-12-20 18:38:11',
             'pay_type' => '1'
+        );
+    }
+}
+
+class QueryMoneyRequest extends Request {
+
+    public function url() {
+        return "http://47.244.41.184/gateway/queryMoney.html";
+    }
+
+    protected function makeRequestParams() {
+        return array(
+            'input_charset' => 'UTF-8',
+            'merchant_code' => '87557050',
+            'query_time' => '2019-12-20 18:38:11'
         );
     }
 }
