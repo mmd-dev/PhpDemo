@@ -3,8 +3,8 @@
 include_once 'AES.php';
 
 class Request {
-    public $mKey = "05a671c66aefea124cc08b76ea6d30bb";
-    public $mMerchantCode = "87557050";
+    public $mKey = "b823de815c791ec1d3906f6bc7fbc50e";
+    public $mMerchantCode = "52302";
     public $mCharacter = "UTF-8";
 
     public function url() {
@@ -13,6 +13,7 @@ class Request {
 
     public function requestParams() {
         $params = $this->makeRequestParams();
+        var_dump($params);
         $sign = $this->generateSign($params);
         $params['sign'] = $sign;
         return $params;
@@ -29,7 +30,7 @@ class Request {
             $str = $str."&".$key."=".$value;
         }
         $str = substr($str, 1);
-        $str = $str."&key=".$mKey;
+        $str = $str."&key=".$this->mKey;
         return md5($str);
     }
 }
@@ -37,7 +38,7 @@ class Request {
 class PayRequest extends Request {
 
     public function url() {
-        return "http://47.244.41.184/gateway/create.html";
+        return "http://pay.longpay188.com/create.html";
     }
 
     protected function makeRequestParams() {
@@ -45,8 +46,8 @@ class PayRequest extends Request {
         return array(
             'inform_url' => 'http://www.abc.com',
             'input_charset' => 'UTF-8',
-            'merchant_code' => '87557050',
-            'order_amount' => AES::encrypt("90.00", $mKey),
+            'merchant_code' => $this->mMerchantCode,
+            'order_amount' => AES::encrypt("90.00", $this->mKey),
             'order_no' => $milliseconds,
             'order_time' => '2019-12-20 18:38:11',
             'pay_type' => '1'
@@ -57,13 +58,13 @@ class PayRequest extends Request {
 class QueryMoneyRequest extends Request {
 
     public function url() {
-        return "http://47.244.41.184/gateway/queryMoney.html";
+        return "http://pay.longpay188.com/queryMoney.html";
     }
 
     protected function makeRequestParams() {
         return array(
             'input_charset' => 'UTF-8',
-            'merchant_code' => '87557050',
+            'merchant_code' => $this->mMerchantCode,
             'query_time' => '2019-12-20 18:38:11'
         );
     }
